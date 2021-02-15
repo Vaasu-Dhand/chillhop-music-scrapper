@@ -6,7 +6,7 @@ export async function scrape() {
     try {
       // set some options (set headless to false so we can see this automated browsing experience)
       let launchOptions = {
-        headless: true,
+        headless: false,
         executablePath:
           'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe', // because we are using puppeteer-core so we must define this option
         args: ['--start-maximized'],
@@ -37,9 +37,14 @@ export async function scrape() {
 
           await page.waitForTimeout(2000) // * MAGIC
 
-          const numOfTracks = await page.$$eval('.track-single',
+          let numOfTracks = await page.$$eval('.track-single',
             (tracks) => tracks.length
           );
+          numOfTracks -= 25;  // The number of tracks come out to be 25 more than the actual number of tracks for some reason
+          // console.log(numOfTracks);
+
+          // Hold for a bit
+          // await page.waitForTimeout(50000)
 
           if (numOfTracks >= 5) {
             let albumName = await page.$eval('div.title-holder h1', (name) => name.textContent);
@@ -50,7 +55,7 @@ export async function scrape() {
             // console.log(albumName, albumArtist, imgSrc, imgAlt);
             let trackData = await page.$$eval('.track-single', (tracks) => {
               // if (tracks.length >= 5) {
-              return tracks.map((track) => {
+              return tracks.map((track) => {  // ! Try for of loop or some async loop but make sure to return an array, This problem could be bcz, it is returning thr object very fast or even before tracks get played
                 
                 track.querySelector(`a.track-${track.children[0].getAttribute('data-track')}`).click(); // ? Not sure if this works
 
@@ -59,7 +64,7 @@ export async function scrape() {
                   title: track.querySelector('div.trackTitle').textContent,
                   artists: track.querySelectorAll('div.trackArtists')[0].textContent,
                   duration: track.querySelector('div.track-length').textContent,
-                  "audio-src": document.querySelector('audio').getAttribute('src')  // ! returns noting
+                  "audio-src": document.querySelector('audio').getAttribute('src')  
                 };
               });
             });
@@ -73,18 +78,12 @@ export async function scrape() {
               "img-alt": imgAlt,
               "tracks": trackData
             }
-            // console.log(albumData);
-            // albumData += ","; // JSON Formatting
-            console.log(index);
-            console.log(albumLinks.length);
 
             if ((index + 1) === albumLinks.length) {  // Last Album
               appendData(albumData, true)
             } else {
               appendData(albumData, false)
             }
-
-
           }
         } catch (error) { // * If Something Goes Wrong
           console.log(error);

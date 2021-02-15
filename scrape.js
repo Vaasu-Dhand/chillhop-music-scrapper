@@ -6,7 +6,7 @@ export async function scrape() {
     try {
       // set some options (set headless to false so we can see this automated browsing experience)
       let launchOptions = {
-        headless: false,
+        headless: true,
         executablePath:
           'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe', // because we are using puppeteer-core so we must define this option
         args: ['--start-maximized'],
@@ -14,6 +14,7 @@ export async function scrape() {
 
       const browser = await puppeteer.launch(launchOptions);
       const page = await browser.newPage();
+      
 
       // set viewport and user agent (just in case for nice viewing)
       await page.setViewport({ width: 1366, height: 768 });
@@ -35,12 +36,15 @@ export async function scrape() {
 
         try {
 
+
           await page.waitForTimeout(2000) // * MAGIC
+
+          await page.$$eval('.list', listElement => listElement[1].remove());
 
           let numOfTracks = await page.$$eval('.track-single',
             (tracks) => tracks.length
           );
-          numOfTracks -= 25;  // The number of tracks come out to be 25 more than the actual number of tracks for some reason
+          // [SOLVED] The number of tracks come out to be 25 more than the actual number of tracks for some reason
           // console.log(numOfTracks);
 
           // Hold for a bit
@@ -55,17 +59,18 @@ export async function scrape() {
             // console.log(albumName, albumArtist, imgSrc, imgAlt);
             let trackData = await page.$$eval('.track-single', (tracks) => {
               // if (tracks.length >= 5) {
-              return tracks.map((track) => {  // ! Try for of loop or some async loop but make sure to return an array, This problem could be bcz, it is returning thr object very fast or even before tracks get played
+              return tracks.map((track, index) => {  // ! Try for of loop or some async loop but make sure to return an array, This problem could be bcz, it is returning thr object very fast or even before tracks get played
                 
-                track.querySelector(`a.track-${track.children[0].getAttribute('data-track')}`).click(); // ? Not sure if this works
-
-                return {
-                  'data-track': track.children[0].getAttribute('data-track'),
-                  title: track.querySelector('div.trackTitle').textContent,
-                  artists: track.querySelectorAll('div.trackArtists')[0].textContent,
-                  duration: track.querySelector('div.track-length').textContent,
-                  "audio-src": document.querySelector('audio').getAttribute('src')  
-                };
+                  track.querySelector(`a.track-${track.children[0].getAttribute('data-track')}`).click(); 
+  
+                  return {
+                    'data-track': track.children[0].getAttribute('data-track'),
+                    title: track.querySelector('div.trackTitle').textContent,
+                    artists: track.querySelectorAll('div.trackArtists')[0].textContent,
+                    duration: track.querySelector('div.track-length').textContent,
+                    "audio-src": document.querySelector('audio').getAttribute('src')  
+                  };
+                  
               });
             });
             // console.log(trackData);

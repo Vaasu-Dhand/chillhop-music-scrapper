@@ -6,25 +6,14 @@ import getSrc from './getSrc.js'
 const schema = '{"albums": [ ';
 
 // Create a data.json file
-async function init() {
   fs.writeFile('./data.json', (schema), (err) => {
-    console.log(schema);
     if (err) console.error(err)
-    // console.log('data.json created');
+    console.log("File Created");
   })
   
-  await scrape()
+ await scrape()
   
   fs.appendFileSync('./data.json', ' ] } ', (err) => {
     if (err) console.error(err);
     console.log('Write Completed');
   });
-
-  jsonfile.writeFileSync('data.json', ' ] } ', { flag: 'a' })
-
-}
-
-init()
-
-
-// getSrc()

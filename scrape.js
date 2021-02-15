@@ -1,9 +1,8 @@
 
 import puppeteer from 'puppeteer-core';
-import appendData from './utils/appendData.js';
+import appendData from './appendData.js';
 
-export function scrape() {
-  (async () => {
+export async function scrape() {
     try {
       // set some options (set headless to false so we can see this automated browsing experience)
       let launchOptions = {
@@ -30,7 +29,7 @@ export function scrape() {
 
       // console.log(albumLinks);
 
-      for (const albumURL of albumLinks) {
+      for (const [index, albumURL] of albumLinks.entries()) {
         // console.log(albumURL);
         await page.goto(albumURL);
 
@@ -76,7 +75,16 @@ export function scrape() {
             }
             // console.log(albumData);
             // albumData += ","; // JSON Formatting
-            appendData(albumData)
+            console.log(index);
+            console.log(albumLinks.length);
+
+            if ((index + 1) === albumLinks.length) {  // Last Album
+              appendData(albumData, true)
+            } else {
+              appendData(albumData, false)
+            }
+
+
           }
         } catch (error) { // * If Something Goes Wrong
           console.log(error);
@@ -90,5 +98,5 @@ export function scrape() {
     } catch (error) {
       console.log(error);
     }
-  })();
+  
 }

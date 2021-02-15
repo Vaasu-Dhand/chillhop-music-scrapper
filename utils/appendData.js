@@ -6,7 +6,7 @@ export default (data) => {
 
   jsonfile.writeFile('data.json', data, { flag: 'a' })
   .then(res => {
-    console.log('Write complete')
+    console.log('Album Data Saved')
   })
   .catch(error => console.error(error))
 }

@@ -22,6 +22,7 @@ export async function scrape() {
         'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'
       );
 
+
       // Go to the chillHop Albums Page
       await page.goto('https://chillhop.com/releases/');
       const albumLinks = await page.$$eval('.release > a', (list) =>
@@ -68,7 +69,7 @@ export async function scrape() {
                     title: track.querySelector('div.trackTitle').textContent,
                     artists: track.querySelectorAll('div.trackArtists')[0].textContent,
                     duration: track.querySelector('div.track-length').textContent,
-                    "audio-src": document.querySelector('audio')?.getAttribute('src') || "CouldNotFetch"  
+                    "audio-src": document.querySelector('audio')?.getAttribute('src') || "couldNotFetch" 
                   };
                   
               });

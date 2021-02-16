@@ -1,7 +1,7 @@
 import fs from 'fs';
 import jsonfile from 'jsonfile';
 import { scrape } from './scrape.js';
-import getSrc from './getSrc.js'
+import {getSrc} from './getSrc.js'
 
 const schema = '{"albums": [ ';
 
@@ -11,7 +11,8 @@ const schema = '{"albums": [ ';
     console.log("File Created");
   })
   
- await scrape()
+//  await scrape()
+ await getSrc()
   
   fs.appendFileSync('./data.json', ' ] } ', (err) => {
     if (err) console.error(err);

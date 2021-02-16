@@ -58,10 +58,10 @@ export async function scrape() {
             // let releaseDate = await page.$$eval('span.date', date => [...date])
             // console.log(albumName, albumArtist, imgSrc, imgAlt);
             let trackData = await page.$$eval('.track-single', (tracks) => {
-              // if (tracks.length >= 5) {
-              return tracks.map((track, index) => {  // ! Try for of loop or some async loop but make sure to return an array, This problem could be bcz, it is returning thr object very fast or even before tracks get played
+              
+              return tracks.map((track, index) => {  
                 
-                  track.querySelector(`a.track-${track.children[0].getAttribute('data-track')}`).click(); 
+                  track.querySelector(`a.track-${track.children[0].getAttribute('data-track')}`).click();   // Check if this is working properly
   
                   return {
                     'data-track': track.children[0].getAttribute('data-track'),

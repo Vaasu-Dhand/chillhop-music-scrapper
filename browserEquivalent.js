@@ -4,8 +4,9 @@ const sleep = async (ms) => {
 
 let somethingElse = document.querySelectorAll('.track-single');
 
-// function trackData() {
-let anotherOne = somethingElse.forEach(async (track, index) => {
+let trackData = async () => {
+// let anotherOne = 
+  return Array.from(somethingElse).map(async (track, index) => {
   let songLoadPromise = new Promise((resolve, reject) => {
     setTimeout(async function () {
       track
@@ -15,21 +16,41 @@ let anotherOne = somethingElse.forEach(async (track, index) => {
         .click(); // ! Causes the error when executed quickly
       console.log('Song Clicked');
 
-      await sleep(3000);
+      await sleep(2000);  // * Prevent the Above error
       console.log('Src extracted');
       resolve(document.querySelector('audio')?.getAttribute('src'));
-    }, index * 6000);
+    }, index * 5000);
   });
-  let data = await songLoadPromise;
-  console.log(data);
+  let songSrc = await songLoadPromise;
+  console.log(songSrc);
 
-  // return {
-  //   "data": data
-  // }
+  songLoadPromise.then(() => {
+    return {
+      "src": songSrc
+    }
+  })
 
-  // let elementRef = document.querySelector('div#player-controlls').classList
+  return (
+    songLoadPromise.then(() => {
+      return {
+        "src": songSrc
+      }
+    })
+  )
+
 });
 
-console.log(anotherOne);
 
-// trackData()
+}
+// console.log(anotherOne);
+
+let data = await trackData()  // return undefined immediately
+console.log("Data", trackData());
+
+trackData().then((data) => {
+  console.log(data);
+}).catch((err) => {
+  console.log("Error", err)
+})
+
+Promise.all([trackData()]).then(values => console.warn(values))

@@ -76,8 +76,8 @@ export async function getSrc() {
               // track.querySelector(`a.track-${track.children[0]?.getAttribute('data-track')}`).click();   // Check if this is working properly
 
               const sleep = async (ms) => {
-                return new Promise(resolve => setTimeout(resolve, ms));
-              }
+                return new Promise((resolve) => setTimeout(resolve, ms));
+              };
 
               let songLoadPromise = new Promise((resolve, reject) => {
                 setTimeout(async function () {
@@ -90,7 +90,7 @@ export async function getSrc() {
                   console.log(
                     document.querySelector('audio')?.getAttribute('src')
                   );
-                  await sleep(1000)
+                  await sleep(1000);
                   console.log('Src extracted');
                   resolve(document.querySelector('audio')?.getAttribute('src'));
                 }, index * 5000);
@@ -101,14 +101,15 @@ export async function getSrc() {
               return {
                 'data-track': track.children[0]?.getAttribute('data-track'),
                 title: track.querySelector('div.trackTitle').textContent,
-                artists: track.querySelectorAll('div.trackArtists')[0].textContent,
+                artists: track.querySelectorAll('div.trackArtists')[0]
+                  .textContent,
                 duration: track.querySelector('div.track-length').textContent,
                 // "audio-src": songSrc || "couldNotFetch"
               };
             });
           });
           await trackData;
-          console.log("I am here so fst", trackData);
+          console.log('I am here so fst', trackData);
 
           let albumData = {
             name: albumName,
@@ -132,7 +133,7 @@ export async function getSrc() {
         // continue;
       }
       // formatData(albumData)
-      await page.waitForTimeout(10000)  // * If I wait on the page, my script works but, the loop ends and goes to the next URL
+      await page.waitForTimeout(10000); // * If I wait on the page, my script works but, the loop ends and goes to the next URL
       console.log('Reached the end'); // ! It reaches here before the above async functions have finished execution
     }
     // });

@@ -9,8 +9,7 @@ export async function getSrc() {
         headless: false,
         executablePath:
           'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe', // because we are using puppeteer-core so we must define this option
-        args: ['--start-maximized']
-        
+        args: ['--start-maximized'],
       };
 
       const browser = await puppeteer.launch(launchOptions);
@@ -32,13 +31,18 @@ export async function getSrc() {
 
       // console.log(albumLinks);
 
-      for (const [index, albumURL] of albumLinks.entries()) {
+      // for (const [index, albumURL] of albumLinks.entries()) {
+        // albumLinks.forEach(async (albumURL, index) => {
+          for (let i = 0; i < albumLinks.length; i++) {
+            const albumURL = albumLinks[i];
+            
+          // }
+        
+          await page.goto(albumURL);
+       
         // console.log(albumURL);
-        await page.goto(albumURL);
 
         try {
-
-
           await page.waitForTimeout(2000) // * MAGIC
 
           await page.$$eval('.list', listElement => listElement[1].remove());
@@ -59,55 +63,41 @@ export async function getSrc() {
             // let audioSrc = await page.$eval('audio#jp_audio_0', (audio) => audio.childNodes
             // let releaseDate = await page.$$eval('span.date', date => [...date])
             // console.log(albumName, albumArtist, imgSrc, imgAlt);
+            
             let trackData = await page.$$eval('.track-single', (tracks) => {
+              
+              
               
               return tracks.map(async (track, index) => {  
 
-                // * Write Code that waits of prev track to have loaded completely
-                // * 1) 
-                let elementRef = document.querySelector('div#player-controlls').classList
-                  
-                let checkOne = new Promise((resolve, reject) => {
-                  let interval = setInterval(() => {
-                    if (elementRef.contains('jp-state-seeking')) {
-                      resolve('Promise Resolved')
-                      clearInterval(interval)
-                    } else {
-                      reject('Promise Rejected')
-                    }
-                  }, 1000);
-                })
-                await checkOne // Wait 1
-                  
-
-                let checkTwo = new Promise((resolve, reject) => {
-                  let interval = setInterval(() => {
-                    if (!elementRef.contains('jp-state-seeking')) {
-                      resolve('Promise Resolved')
-                      clearInterval(interval)
-                    } else {
-                      reject('Promise Rejected')
-                    }
-                  }, 1000);
-                })
-
-                await checkTwo; // Wait 2
                 
+                // track.querySelector(`a.track-${track.children[0]?.getAttribute('data-track')}`).click();   // Check if this is working properly
+                
+                let songLoadPromise = new Promise((resolve, reject) => {
+                  setTimeout(async function () {
+                      console.log(window);
+                      track.querySelector(`a.track-${track.children[0]?.getAttribute('data-track')}`).click()
+                      console.log('Song Clicked');
+                      console.log(document.querySelector('audio')?.getAttribute('src'));
+                      // await sleep(3000)
+                      console.log("Src extracted");
+                      resolve(document.querySelector('audio')?.getAttribute('src'))
+                    }, index * 6000);
+                });
+                let songSrc = await songLoadPromise
+                console.log(songSrc)
 
-                track.querySelector(`a.track-${track.children[0]?.getAttribute('data-track')}`).click();   // ! Causes the error when executed quickly
-
-                  return {
-                    'data-track': track.children[0]?.getAttribute('data-track'),
-                    title: track.querySelector('div.trackTitle').textContent,
-                    artists: track.querySelectorAll('div.trackArtists')[0].textContent,
-                    duration: track.querySelector('div.track-length').textContent,
-                    "audio-src": document.querySelector('audio')?.getAttribute('src') || "couldNotFetch",
-                    "temp": temp 
-                  };
+                  // return {
+                  //   'data-track': track.children[0]?.getAttribute('data-track'),
+                  //   title: track.querySelector('div.trackTitle').textContent,
+                  //   artists: track.querySelectorAll('div.trackArtists')[0].textContent,
+                  //   duration: track.querySelector('div.track-length').textContent,
+                  //   "audio-src": songSrc || "couldNotFetch" 
+                  // };
                   
               });
             });
-            // console.log(trackData);
+            await trackData
 
             let albumData = {
               "name": albumName,
@@ -118,7 +108,7 @@ export async function getSrc() {
               "tracks": trackData
             }
 
-            if ((index + 1) === albumLinks.length) {  // Last Album
+            if ((i + 1) === albumLinks.length) {  // Last Album
               appendData(albumData, true)
             } else {
               appendData(albumData, false)
@@ -126,10 +116,11 @@ export async function getSrc() {
           }
         } catch (error) { // * If Something Goes Wrong
           console.log(error);
-          continue;
+          // continue;
         }
         // formatData(albumData)
       }
+    // });
 
       // close the browser
       await browser.close();

@@ -1,107 +1,130 @@
-
 import puppeteer from 'puppeteer-core';
-import appendData from './appendData.js';
+import appendData from './utils/appendData.js';
 
-export async function scrape() {
-    try {
-      // set some options (set headless to false so we can see this automated browsing experience)
-      let launchOptions = {
-        headless: false,
-        executablePath:
-          'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe', // because we are using puppeteer-core so we must define this option
-        args: ['--start-maximized'],
-      };
+export default async function scrape() {
+  try {
+    // set some options (set headless to false so we can see this automated browsing experience)
+    let launchOptions = {
+      headless: false,
+      executablePath:
+        'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe', // because we are using puppeteer-core so we must define this option
+      args: ['--start-maximized'],
+    };
 
-      const browser = await puppeteer.launch(launchOptions);
-      const page = await browser.newPage();
-      
+    const browser = await puppeteer.launch(launchOptions);
+    const page = await browser.newPage();
 
-      // set viewport and user agent (just in case for nice viewing)
-      await page.setViewport({ width: 1366, height: 768 });
-      await page.setUserAgent(
-        'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'
-      );
+    // set viewport and user agent (just in case for nice viewing)
+    await page.setViewport({ width: 1200, height: 80000 }); // [NOTE] set large height so all tracks can are visible in the viewport
+    await page.setUserAgent(
+      'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'
+    );
 
+    // Go to the chillHop Albums Page
+    await page.goto('https://chillhop.com/releases/', {
+      timeout: 20000,
+      waitUntil: ['load', 'domcontentloaded', 'networkidle0'],
+    });
+    const albumLinks = await page.$$eval('.release > a', (list) =>
+      list.map((elm) => elm.href)
+    ); // 12 Albums Load Initaially
 
-      // Go to the chillHop Albums Page
-      await page.goto('https://chillhop.com/releases/');
-      const albumLinks = await page.$$eval('.release > a', (list) =>
-        list.map((elm) => elm.href)
-      ); // 12 Albums Load Initaially
+    console.log(albumLinks);
+    // Add Data to albums.json
 
-      // console.log(albumLinks);
+    await page.setRequestInterception(true); // [NOTE] Listen for network requests
+    page.on('request', (request) => {
+      request.continue();
+    }); // [NOTE] allow requests to go through. As a performance boost you can abort requesrs for images
 
-      for (const [index, albumURL] of albumLinks.entries()) {
-        // console.log(albumURL);
-        await page.goto(albumURL);
+    for (let i = 0; i < albumLinks.length; i++) {
+      const albumURL = albumLinks[i];
+      await page.goto(albumURL);
 
-        try {
+      try {
 
+        const album = await page.$$('.single-container .track-single');
+        console.log("Number of Songs:", album.length);
 
-          await page.waitForTimeout(2000) // * MAGIC
-
-          await page.$$eval('.list', listElement => listElement[1].remove());
-
-          let numOfTracks = await page.$$eval('.track-single',
-            (tracks) => tracks.length
+        if (album.length >= 5) {  // Scrape Data only if the tracks are more than 5
+          let albumName = await page.$eval(
+            'div.title-holder h1',
+            (name) => name.textContent
           );
-          // [SOLVED] The number of tracks come out to be 25 more than the actual number of tracks for some reason
-          // console.log(numOfTracks);
+          let albumArtist = await page.$eval(
+            'div.title-holder h2',
+            (name) => name.textContent
+          );
+          let [imgSrc, imgAlt] = await page.$eval(
+            '.col-md-6.col-sm-4.fa img', // # this is flaky, possibilty the site is responsive and will cause it to fail. Find another selector
+            (img) => [img?.getAttribute('src'), img?.getAttribute('alt')]
+          );
 
-          // Hold for a bit
-          // await page.waitForTimeout(50000)
+          const tracks = [];
+          const regex = /mp3/g;
 
-          if (numOfTracks >= 5) {
-            let albumName = await page.$eval('div.title-holder h1', (name) => name.textContent);
-            let albumArtist = await page.$eval('div.title-holder h2', (name) => name.textContent);
-            let [imgSrc, imgAlt] = await page.$eval('.col-md-6.col-sm-4.fa img', (img) => [img?.getAttribute('src'), img?.getAttribute('alt')]);
-            // let audioSrc = await page.$eval('audio#jp_audio_0', (audio) => audio.childNodes
-            // let releaseDate = await page.$$eval('span.date', date => [...date])
-            // console.log(albumName, albumArtist, imgSrc, imgAlt);
-            let trackData = await page.$$eval('.track-single', (tracks) => {
-              
-              return tracks.map((track, index) => {  
-                
-                  track.querySelector(`a.track-${track.children[0]?.getAttribute('data-track')}`).click();   // Check if this is working properly
-  
-                  return {
-                    'data-track': track.children[0]?.getAttribute('data-track'),
-                    title: track.querySelector('div.trackTitle').textContent,
-                    artists: track.querySelectorAll('div.trackArtists')[0].textContent,
-                    duration: track.querySelector('div.track-length').textContent,
-                    "audio-src": document.querySelector('audio')?.getAttribute('src') || "couldNotFetch" 
-                  };
-                  
+          for (const track of album) {
+            try {
+              const anchor = await track.$('a'); // retrieve the first anchor tag thats a child of current .track-single
+              const request = page.waitForRequest( (request) => regex.test(request.url()), { timeout: 5000 } ); // return requests that contain mp3 in its url
+
+              await anchor.click(); // click anchor tag to begin playback moreso trigger request for track
+              console.log('Song Clicked');
+              const req = await request; // wait for appropriate request to be made
+              const trackMetaData = await track.evaluate((element) => {
+                /**
+                 * Gather all track metadata from browser context.
+                 * Anything logged here will appear in your spawn brower
+                 */
+                return {
+                  'track-id': element.getAttribute('data-track_id'),
+                  title: element.querySelector('.trackTitle').innerText,
+                  artists: element.querySelector('.trackArtists a').innerText,
+                  duration: element.querySelector('.track-length').innerText,
+                };
               });
-            });
-            // console.log(trackData);
 
-            let albumData = {
-              "name": albumName,
-              "artist": albumArtist,
-              "url": albumURL,
-              "img-src": imgSrc,
-              "img-alt": imgAlt,
-              "tracks": trackData
-            }
+              const url = req.url();
+              console.log({ trackMetaData, url }, '------>>>>>');
 
-            if ((index + 1) === albumLinks.length) {  // Last Album
-              appendData(albumData, true)
-            } else {
-              appendData(albumData, false)
+              tracks.push({
+                ...trackMetaData,
+                'audio-src': url,
+              });
+            } catch (error) { // catch TimeoutError
+              console.log('[ERROR]', error);
+              continue; //  Should continue looping through the tracks even if I get the Timeout exceeded error
             }
           }
-        } catch (error) { // * If Something Goes Wrong
-          console.log(error);
-          continue;
-        }
-        // formatData(albumData)
-      }
 
-      // close the browser
-      await browser.close();
-    } catch (error) {
-      console.log(error);
+          let albumData = {
+            name: albumName,
+            artist: albumArtist,
+            url: albumURL,
+            'img-src': imgSrc,
+            'img-alt': imgAlt,
+            tracks,
+          };
+
+          console.log(
+            { albumData: JSON.stringify(albumData, null, 2) },
+            '<--------'
+          ); // User readable object in terminal
+
+          appendData(albumData);
+        }
+      } catch (error) {
+        // * If Something Goes Wrong
+        console.log('[ERROR] ', error);
+        continue;
+      }
+      console.log('Reached the end');
     }
-  
+
+    // Close the browser
+    await browser.close();
+
+  } catch (error) {
+    console.log(error);
+  }
 }

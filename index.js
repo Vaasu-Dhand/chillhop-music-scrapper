@@ -1,19 +1,8 @@
-import fs from 'fs';
-import jsonfile from 'jsonfile';
-import { scrape } from './scrape.js';
-import getSrc from './getSrc.js'
+import scrape from './scrape.js';
+import { createFile, endFile } from './utils/index.js';
 
-const schema = '{"albums": [ ';
+createFile();
 
-// Create a data.json file
-  fs.writeFile('./data.json', (schema), (err) => {
-    if (err) console.error(err)
-    console.log("File Created");
-  })
-  
- await scrape()
-  
-  fs.appendFileSync('./data.json', ' ] } ', (err) => {
-    if (err) console.error(err);
-    console.log('Write Completed');
-  });
+await scrape();
+
+endFile();

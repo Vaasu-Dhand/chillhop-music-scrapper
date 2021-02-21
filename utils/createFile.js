@@ -1,6 +1,6 @@
 import fs from 'fs'
 
-export default createFile = () => {
+export default function createFile() {
 
   const schema = '{"albums": [ ';
 

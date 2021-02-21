@@ -1,6 +1,6 @@
 import fs from 'fs'
 
-export default endFile = () => {
+export default function endFile() {
 
   // Remove the last character (comma)
   let rawData = fs.readFileSync('./data/data.json')

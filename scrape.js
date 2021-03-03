@@ -1,13 +1,13 @@
 import puppeteer from 'puppeteer-core';
-import appendData from './utils/appendData.js';
+import { appendData, getPlatform } from './utils/index.js';
 
 export default async function scrape() {
   try {
+
     // set some options (set headless to false so we can see this automated browsing experience)
     let launchOptions = {
       headless: false,
-      executablePath:
-        'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe', // because we are using puppeteer-core so we must define this option
+      executablePath: getPlatform(),  // because we are using puppeteer-core so we must define this option
       args: ['--start-maximized'],
     };
 

@@ -1,7 +1,7 @@
 import fs from 'fs';
 import jsonfile from 'jsonfile';
 
-export default (data, isLast = false) => {
+export default function appendData(data, isLast = false) {
   try {
   
     if (data) {

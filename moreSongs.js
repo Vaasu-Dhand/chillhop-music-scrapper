@@ -7,7 +7,7 @@ export default async function moreSongs() {
     let launchOptions = {
       headless: false,
       executablePath:
-        'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe', // because we are using puppeteer-core so we must define this option
+        getPlatform(), // because we are using puppeteer-core so we must define this option
       args: ['--start-maximized'],
     };
 
@@ -29,8 +29,17 @@ export default async function moreSongs() {
       list.map((elm) => elm.href)
     ); // 12 Albums Load Initaially
 
+    /*
+     *  Create a new variable newAlbums, which will be a trimmed version of albumLinks variable 
+     *  Remove the num of albums already visited (global var), from the top from the albumLinks and store it in the newAlbums var 
+     *  Now do the same thing for the newAlbum links
+     *  Also have to propt the user with the num of albums extracted and if he wanna extract more of them.
+     */
+
+    
     console.log(albumLinks);
-    // Add Data to albums.json
+    
+
 
     await page.setRequestInterception(true); // [NOTE] Listen for network requests
     page.on('request', (request) => {
@@ -66,7 +75,7 @@ export default async function moreSongs() {
           for (const track of album) {
             try {
               const anchor = await track.$('a'); // retrieve the first anchor tag thats a child of current .track-single
-              const request = page.waitForRequest( (request) => regex.test(request.url()), { timeout: 5000 } ); // return requests that contain mp3 in its url
+              const request = page.waitForRequest((request) => regex.test(request.url()), { timeout: 5000 }); // return requests that contain mp3 in its url
 
               await anchor.click(); // click anchor tag to begin playback moreso trigger request for track
               console.log('Song Clicked');

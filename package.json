@@ -1,14 +1,14 @@
 {
   "name": "chillhop-songs-scrapper",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.1.0",
+  "description": "Scrapes Music from chillhop.com",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
   "keywords": [],
   "author": "Vaasu Dhand",
-  "license": "ISC",
+  "license": "MIT",
   "type": "module",
   "dependencies": {
     "jsonfile": "^6.1.0",

@@ -3,11 +3,10 @@ import moreSongs from './moreSongs.js';
 import { createFile, endFile, updateDatabase } from './utils/index.js';
 import yesno from 'yesno';
 
+// * Scrape Data
 // createFile();
-
 // await scrape();
 // ! await moreSongs()
-
 // endFile();
 
 // * Append Data to Database

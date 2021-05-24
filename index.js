@@ -1,6 +1,7 @@
 import scrape from './scrape.js';
 import moreSongs from './moreSongs.js';
 import { createFile, endFile, updateDatabase } from './utils/index.js';
+import yesno from 'yesno';
 
 // createFile();
 
@@ -10,4 +11,7 @@ import { createFile, endFile, updateDatabase } from './utils/index.js';
 // endFile();
 
 // * Append Data to Database
-updateDatabase();
+const appendToDB = await yesno({
+  question: 'Push Data to Database?'
+});
+appendToDB && updateDatabase();

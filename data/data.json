@@ -1,1 +1,257 @@
-{"albums": [ 
+{
+  "albums": [
+    {
+      "name": " Sound Escapes ",
+      "artist": "  Evil Needle  ",
+      "url": "https://chillhop.com/releases/evil-needle-sound-escapes/",
+      "img-src": "https://chillhop.com/wp-content/uploads/2021/04/cb0cc6270d7f2e1bb13e44e8832bd5c9b2a61080-1024x1024.jpg",
+      "img-alt": "Sound Escapes | Chillhop.com",
+      "tracks": [
+        {
+          "track-id": "770864",
+          "title": "Cruising",
+          "artists": "Evil Needle",
+          "duration": "02:50",
+          "audio-src": "https://mp3.chillhop.com/serve.php/?mp3=9248"
+        },
+        {
+          "track-id": "770865",
+          "title": "Low Rider",
+          "artists": "Evil Needle",
+          "duration": "02:54",
+          "audio-src": "https://mp3.chillhop.com/serve.php/?mp3=17087"
+        },
+        {
+          "track-id": "770866",
+          "title": "Vintage",
+          "artists": "Evil Needle",
+          "duration": "02:53",
+          "audio-src": "https://mp3.chillhop.com/serve.php/?mp3=17088"
+        },
+        {
+          "track-id": "770867",
+          "title": "Dive",
+          "artists": "Evil Needle",
+          "duration": "02:49",
+          "audio-src": "https://mp3.chillhop.com/serve.php/?mp3=17089"
+        },
+        {
+          "track-id": "770868",
+          "title": "Simplexity",
+          "artists": "Evil Needle",
+          "duration": "02:59",
+          "audio-src": "https://mp3.chillhop.com/serve.php/?mp3=14958"
+        }
+      ]
+    },
+    {
+      "name": " Chillhop Timezones vol.2 – Nostalgia ",
+      "artist": "  Chillhop Music  ",
+      "url": "https://chillhop.com/releases/timezones-nostalgia/",
+      "img-src": "https://chillhop.com/wp-content/uploads/2021/03/75adfe0661d06a9ea66d9c2e99b31e92ae450ebe-1024x1024.jpg",
+      "img-alt": "Chillhop Timezones vol.2 - Nostalgia | Chillhop.com",
+      "tracks": [
+        {
+          "track-id": "770811",
+          "title": "Melodiya",
+          "artists": "Psalm Trees",
+          "duration": "02:10",
+          "audio-src": "https://mp3.chillhop.com/serve.php/?mp3=9248"
+        },
+        {
+          "track-id": "770809",
+          "title": "Soul Samba",
+          "artists": "Screen Jazzmaster",
+          "duration": "02:40",
+          "audio-src": "https://mp3.chillhop.com/serve.php/?mp3=16063"
+        },
+        {
+          "track-id": "770812",
+          "title": "Romance",
+          "artists": "RenBoz",
+          "duration": "01:57",
+          "audio-src": "https://mp3.chillhop.com/serve.php/?mp3=16064"
+        },
+        {
+          "track-id": "770813",
+          "title": "Alyosha",
+          "artists": "Monma",
+          "duration": "02:52",
+          "audio-src": "https://mp3.chillhop.com/serve.php/?mp3=16066"
+        },
+        {
+          "track-id": "770814",
+          "title": "Chrome & Tar",
+          "artists": "Mo Anando",
+          "duration": "02:43",
+          "audio-src": "https://mp3.chillhop.com/serve.php/?mp3=16068"
+        },
+        {
+          "track-id": "770815",
+          "title": "nebulae",
+          "artists": "cocabona",
+          "duration": "02:22",
+          "audio-src": "https://mp3.chillhop.com/serve.php/?mp3=16071"
+        },
+        {
+          "track-id": "770817",
+          "title": "Minus Five in Moscow",
+          "artists": "Psalm Trees",
+          "duration": "02:02",
+          "audio-src": "https://mp3.chillhop.com/serve.php/?mp3=16074"
+        },
+        {
+          "track-id": "770810",
+          "title": "Sunny in Saint Petersburg",
+          "artists": "Saib",
+          "duration": "02:48",
+          "audio-src": "https://mp3.chillhop.com/serve.php/?mp3=16076"
+        }
+      ]
+    },
+    {
+      "name": " Cycles ",
+      "artist": "  SwuM  ",
+      "url": "https://chillhop.com/releases/swum-cycles/",
+      "img-src": "https://chillhop.com/wp-content/uploads/2021/03/74d62bc9370a68e440c1b98eaf650344f0a7faea-1024x1024.jpg",
+      "img-alt": "Cycles | Chillhop.com",
+      "tracks": [
+        {
+          "track-id": "770801",
+          "title": "By Chance",
+          "artists": "SwuM",
+          "duration": "01:54",
+          "audio-src": "https://mp3.chillhop.com/serve.php/?mp3=15224"
+        },
+        {
+          "track-id": "770802",
+          "title": "Skates",
+          "artists": "SwuM",
+          "duration": "01:59",
+          "audio-src": "https://mp3.chillhop.com/serve.php/?mp3=15226"
+        },
+        {
+          "track-id": "770804",
+          "title": "On The Moon",
+          "artists": "SwuM",
+          "duration": "02:26",
+          "audio-src": "https://mp3.chillhop.com/serve.php/?mp3=15237"
+        },
+        {
+          "track-id": "770805",
+          "title": "Mario Kart",
+          "artists": "SwuM",
+          "duration": "01:41",
+          "audio-src": "https://mp3.chillhop.com/serve.php/?mp3=15228"
+        },
+        {
+          "track-id": "770806",
+          "title": "Wish",
+          "artists": "SwuM",
+          "duration": "01:54",
+          "audio-src": "https://mp3.chillhop.com/serve.php/?mp3=15230"
+        },
+        {
+          "track-id": "770807",
+          "title": "Reflect",
+          "artists": "SwuM",
+          "duration": "02:34",
+          "audio-src": "https://mp3.chillhop.com/serve.php/?mp3=15238"
+        },
+        {
+          "track-id": "770808",
+          "title": "Self Luv",
+          "artists": "SwuM",
+          "duration": "01:57",
+          "audio-src": "https://mp3.chillhop.com/serve.php/?mp3=15235"
+        }
+      ]
+    },
+    {
+      "name": " Into The Past ",
+      "artist": "  C Y G N  ",
+      "url": "https://chillhop.com/releases/cygn-into-the-past/",
+      "img-src": "https://chillhop.com/wp-content/uploads/2021/02/d12927eedcc2f5afba2ab049a4a1ea46c2266ae3-1024x1024.jpg",
+      "img-alt": "Into The Past | Chillhop.com",
+      "tracks": [
+        {
+          "track-id": "755880",
+          "title": "Roses n Flames",
+          "artists": "C Y G N",
+          "duration": "02:48",
+          "audio-src": "https://mp3.chillhop.com/serve.php/?mp3=14985"
+        },
+        {
+          "track-id": "755881",
+          "title": "Lonely Waves",
+          "artists": "C Y G N",
+          "duration": "03:00",
+          "audio-src": "https://mp3.chillhop.com/serve.php/?mp3=14981"
+        },
+        {
+          "track-id": "755882",
+          "title": "Spiritual Mind",
+          "artists": "C Y G N",
+          "duration": "02:57",
+          "audio-src": "https://mp3.chillhop.com/serve.php/?mp3=14987"
+        },
+        {
+          "track-id": "755884",
+          "title": "Lost Soul",
+          "artists": "C Y G N",
+          "duration": "03:16",
+          "audio-src": "https://mp3.chillhop.com/serve.php/?mp3=14989"
+        },
+        {
+          "track-id": "755885",
+          "title": "Blue Moon",
+          "artists": "C Y G N",
+          "duration": "03:01",
+          "audio-src": "https://mp3.chillhop.com/serve.php/?mp3=14991"
+        },
+        {
+          "track-id": "755886",
+          "title": "Playful Obsession",
+          "artists": "C Y G N",
+          "duration": "03:07",
+          "audio-src": "https://mp3.chillhop.com/serve.php/?mp3=14983"
+        },
+        {
+          "track-id": "755887",
+          "title": "Taste of Heaven",
+          "artists": "C Y G N",
+          "duration": "03:06",
+          "audio-src": "https://mp3.chillhop.com/serve.php/?mp3=14994"
+        },
+        {
+          "track-id": "755888",
+          "title": "Dreamlover",
+          "artists": "C Y G N",
+          "duration": "03:12",
+          "audio-src": "https://mp3.chillhop.com/serve.php/?mp3=14995"
+        },
+        {
+          "track-id": "755890",
+          "title": "Naked Sunday",
+          "artists": "C Y G N",
+          "duration": "03:26",
+          "audio-src": "https://mp3.chillhop.com/serve.php/?mp3=14998"
+        },
+        {
+          "track-id": "755891",
+          "title": "Zodiac",
+          "artists": "C Y G N",
+          "duration": "03:03",
+          "audio-src": "https://mp3.chillhop.com/serve.php/?mp3=15000"
+        },
+        {
+          "track-id": "755892",
+          "title": "70 Avenue",
+          "artists": "C Y G N",
+          "duration": "03:19",
+          "audio-src": "https://mp3.chillhop.com/serve.php/?mp3=15001"
+        }
+      ]
+    }
+  ]
+}

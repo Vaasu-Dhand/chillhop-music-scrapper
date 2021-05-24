@@ -1,8 +1,13 @@
 import scrape from './scrape.js';
-import { createFile, endFile } from './utils/index.js';
+import moreSongs from './moreSongs.js';
+import { createFile, endFile, updateDatabase } from './utils/index.js';
 
-createFile();
+// createFile();
 
 // await scrape();
+// ! await moreSongs()
 
-endFile();
+// endFile();
+
+// * Append Data to Database
+updateDatabase();

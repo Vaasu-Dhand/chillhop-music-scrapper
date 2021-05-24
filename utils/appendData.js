@@ -5,6 +5,7 @@ export default function appendData(data, isLast = false) {
   try {
   
     if (data) {
+      console.log(data);
       jsonfile.writeFileSync('./data/data.json', data, { flag: 'a' });
       console.log('Album Data Saved');
     }

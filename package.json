@@ -1,16 +1,18 @@
 {
   "name": "chillhop-songs-scrapper",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.1.0",
+  "description": "Scrapes Music from chillhop.com",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
   "keywords": [],
   "author": "Vaasu Dhand",
-  "license": "ISC",
+  "license": "MIT",
   "type": "module",
   "dependencies": {
+    "axios": "^0.21.1",
+    "dotenv": "^10.0.0",
     "jsonfile": "^6.1.0",
     "puppeteer-core": "^7.1.0"
   }

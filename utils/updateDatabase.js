@@ -27,28 +27,35 @@ export default async function updateDatabase() {
     }
   }
 
+  // * Check if new albums exist
+  const newAlbumCount = newAlbums.length
+  console.log(newAlbumCount + " new Album(s) found");
+
   const newData = { // * New album data with all albums
     "albums": JSON.parse(DbData).albums.concat(newAlbums)
   }
 
-  // * Make a Patch request to add data to DB
-  const data = JSON.stringify({ "description": "Add New Album Data", "files": { "data.json": { "content": JSON.stringify(newData, null, 4) } } });
+  if (newAlbumCount !== 0) {
 
-  const config = {
-    method: 'patch',
-    url: `${process.env.BASE_URL}${process.env.GIST_ID}`,
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/vnd.github.v3+json',
-      'Authorization': `Bearer ${process.env.GIST_ACCESS_TOKEN}`
-    },
-    data
-  };
+    // * Make a Patch request to add data to DB
+    const data = JSON.stringify({ "description": "Add New Album Data", "files": { "data.json": { "content": JSON.stringify(newData, null, 4) } } });
 
-  try {
-    const patchRequest = await axios(config)
-    // console.log(patchRequest);
-  } catch (error) {
-    console.log(error);
+    const config = {
+      method: 'patch',
+      url: `${process.env.BASE_URL}${process.env.GIST_ID}`,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/vnd.github.v3+json',
+        'Authorization': `Bearer ${process.env.GIST_ACCESS_TOKEN}`
+      },
+      data
+    };
+
+    try {
+      const patchRequest = await axios(config)
+      // console.log(patchRequest);
+    } catch (error) {
+      console.log(error);
+    }
   }
 }

@@ -4,13 +4,17 @@ import { createFile, endFile, updateDatabase } from './utils/index.js';
 import yesno from 'yesno';
 
 // * Scrape Data
-// createFile();
-// await scrape();
+createFile();
+await scrape();
 // ! await moreSongs()
-// endFile();
+endFile();
 
-// * Append Data to Database
-const appendToDB = await yesno({
-  question: 'Push Data to Database?'
-});
-appendToDB && updateDatabase();
+if (process.env.NODE_ENV == "production") {
+  updateDatabase()
+} else {
+  // * Append Data to Database
+  const appendToDB = await yesno({
+    question: 'Push Data to Database?'
+  });
+  appendToDB && updateDatabase();
+}
